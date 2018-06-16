@@ -1,0 +1,148 @@
+<div ng-controller="keyExchangeController">
+
+
+  <div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h1 id="forms">Key Exchange</h1>
+          <p class="lead">Diffie–Hellman key exchange</p>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+
+
+      <div class="col-lg-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Key Exchange</h3>
+          </div>
+          <div class="panel-body">
+            <p>Alice has secret a, and sends g^a to Bob</p>
+            <p>Bob has secret b, and sends g^b to Alice</p>
+            <p>Alice computes Shared Key as (g^b)^a => g^ab</p>
+            <p>Bob computes Shared Key as (g^a)^b => g^ab</p>
+            <p class="text-success">Now both has secret g^ab</p>
+            <small class="text-muted">Modulus is omitted for simplicity</small>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="col-lg-6">
+        <div class="well">
+          <div class="form-horizontal">
+            <fieldset>
+              <legend>Public</legend>
+              <input id="scenario" name="scenario" type="hidden" value="xor">
+              <div class="form-group">
+                <label for="p" class="col-lg-4 control-label">P</label>
+                <div class="col-lg-8">
+                  <input type="number" class="form-control" id="p" ng-model="p">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="g" class="col-lg-4 control-label">G</label>
+                <div class="col-lg-8">
+                  <input type="number" class="form-control" id="g" ng-model="g">
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-6">
+        <div class="well">
+          <div class="form-horizontal">
+            <fieldset>
+              <legend>Alice</legend>
+
+              <div class="form-group">
+                <label for="a" class="col-lg-4 control-label text-danger">a (Secret)</label>
+                <div class="col-lg-8">
+                  <input type="password" class="form-control" id="a" ng-model="a">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="Aa" class="col-lg-4 control-label text-primary">A (g^a%p)</label>
+                <div class="col-lg-8">
+                  <input class="form-control" id="Aa" readonly="true" value="{{gPowerXmodP(a)}}">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="Ba" class="col-lg-4 control-label text-warning">B (g^b%p)</label>
+                <div class="col-lg-8">
+                  <input class="form-control" id="Ba" readonly="true" value="{{gPowerXmodP(b)}}">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="keya" class="col-lg-4 control-label text-success">Key (B^a%p => g^ab%p)</label>
+                <div class="col-lg-8">
+                  <input class="form-control" id="keya" readonly="true" value="{{xPowerYmodP(gPowerXmodP(b),a)}}">
+                </div>
+              </div>
+
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-lg-6">
+        <div class="well">
+          <div class="form-horizontal">
+            <fieldset>
+              <legend>Bob</legend>
+
+              <div class="form-group">
+                <label for="b" class="col-lg-4 control-label text-danger">b (Secret)</label>
+                <div class="col-lg-8">
+                  <input type="password" class="form-control" id="b" ng-model="b">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="Bb" class="col-lg-4 control-label text-warning">B (g^b%p)</label>
+                <div class="col-lg-8">
+                  <input class="form-control" id="Bb" readonly="true" value="{{gPowerXmodP(b)}}">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="Ab" class="col-lg-4 control-label text-primary">A (g^a%p)</label>
+                <div class="col-lg-8">
+                  <input class="form-control" id="Ab" readonly="true" value="{{gPowerXmodP(a)}}">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="keyb" class="col-lg-4 control-label text-success">Key (A^b%p => g^ab%p)</label>
+                <div class="col-lg-8">
+                  <input class="form-control" id="keyb" readonly="true" value="{{xPowerYmodP(gPowerXmodP(a),b)}}">
+                </div>
+              </div>
+
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>

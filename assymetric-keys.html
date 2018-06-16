@@ -1,0 +1,112 @@
+<div ng-controller="asymmetricKeyController">
+
+
+  <div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h1 id="forms">Asymmetric Key Encryption</h1>
+          <p class="lead">using Kid RSA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="well">
+          <div class="form-horizontal">
+            <fieldset>
+              <legend>Key Generation</legend>
+              <input id="scenario" name="scenario" type="hidden" value="xor">
+              <div class="form-group">
+                <label for="a" class="col-lg-2 control-label">A</label>
+                <div class="col-lg-10">
+                  <input type="number" class="form-control" id="a" ng-model="a">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="b" class="col-lg-2 control-label">B</label>
+                <div class="col-lg-10">
+                  <input type="number" class="form-control" id="b" ng-model="b">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="a1" class="col-lg-2 control-label">A1</label>
+                <div class="col-lg-10">
+                  <input type="number" class="form-control" id="a1" ng-model="a1">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="b1" class="col-lg-2 control-label">B1</label>
+                <div class="col-lg-10">
+                  <input type="number" class="form-control" id="b1" ng-model="b1">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="publicKey" class="col-lg-2 control-label">Public Key</label>
+                <div class="col-lg-10">
+                  <input class="form-control" id="publicKey" value="{{publicKey(a, b, a1, b1)}}" readonly="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="privateKey" class="col-lg-2 control-label">Private Key</label>
+                <div class="col-lg-10">
+                  <input class="form-control" id="privateKey" value="{{privateKey(a, b, a1, b1)}}" readonly="true">
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Simplified RSA for education</h3>
+          </div>
+          <div class="panel-body">
+            <p>M =>  a * b -1<br>e =>  a1 * M + a<br>d =>  b1 * M + b<br>n => (e * d ) / M => a1 * b1 * M + a * b1 + a1 * b +1</p>
+            <p>Public Key => (n, e)<br>Private Key => d</p>
+            <p class="text-warning">C => (P * e) % n<br>P => (C * d) % n</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-lg-6">
+        <div class="well">
+          <div class="form-horizontal">
+            <fieldset>
+              <legend>Try It</legend>
+
+              <div class="form-group">
+                <label for="input" class="col-lg-2 control-label">Input</label>
+                <div class="col-lg-10">
+                  <input type="number" class="form-control" id="input" ng-model="input">
+                </div>
+              </div>
+
+              <div class="form-group">
+                  <div class="col-lg-10 col-lg-offset-2">
+                      <input type="button" class="btn btn-primary" ng-click="encrypt(a, b, a1, b1)" value="Encrypt">
+                      <input type="button" class="btn btn-primary pull-right" ng-click="decrypt(a, b, a1, b1)" value="Decrypt">
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label for="output" class="col-lg-2 control-label">Output</label>
+                  <div class="col-lg-10">
+                      <input class="form-control" id="output" ng-model="output" readonly="true">
+                  </div>
+              </div>
+
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
