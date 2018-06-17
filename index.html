@@ -48,11 +48,13 @@
   </div>
 
 
-<div ng-controller="navigationController" class="center-block">
-  <ul class="pager">
+  <div ng-controller="navigationController" class="center-block">
+    <ul class="pager">
+      <!--li class="previous"><a ng-href="{{prevMenu}}">&larr; Older</a></li-->
       <li ng-repeat='item in menuItems' ng-class="{active : activeMenu === item.value}"><a ng-click="setActive(item)" ng-href="{{href(item)}}">{{item.name}}</a></li>
-  </ul>
-</div>
+      <!--li class="next"><a ng-href="{{nextMenu}}">Newer &rarr;</a></li-->
+    </ul>
+  </div>
 
   <div class="container">
 

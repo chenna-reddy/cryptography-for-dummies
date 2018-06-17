@@ -58,31 +58,47 @@
     });
   });
 
-  app.controller("navigationController", function($scope, helperMethods) {
+  app.controller("navigationController", function($scope, $location, helperMethods) {
     $scope.menuItems = [{
+      prev: '',
       name: 'XOR',
-      value: 'xor'
+      value: 'xor',
+      next: 'hash'
     }, {
+      prev: 'xor',
       name: 'Hash',
-      value: 'hash'
+      value: 'hash',
+      next: 'symmetric-keys'
     }, {
+      prev: 'hash',
       name: 'Symmetric Key Encryption',
       value: 'symmetric-keys',
+      next: 'key-exchange'
     }, {
+      prev: 'symmetric-keys',
       name: 'Key Exchange',
       value: 'key-exchange',
+      next: 'hmac'
     }, {
+      prev: 'key-exchange',
       name: 'HMAC',
       value: 'hmac',
+      next: 'assymetric-keys'
     }, {
+      prev: 'hmac',
       name: 'Asymmetric Key Encryption',
       value: 'assymetric-keys',
+      next: 'digital-signature'
     }, {
+      prev: 'assymetric-keys',
       name: 'Digital Signature',
       value: 'digital-signature',
+      next: 'block-chain'
     }, {
+      prev: 'digital-signature',
       name: 'Block Chain',
       value: 'block-chain',
+      next: ''
     }];
     $scope.activeMenu = "";
     $scope.setActive = function(menuItem) {
@@ -90,13 +106,19 @@
     };
     $scope.href = function(menuItem) {
       return '#!' + menuItem.value;
-    }
-  });
-
-
-  app.controller("mainController", function ($scope, $location, helperMethods) {
+    };
     $scope.start = function() {
       $location.path("xor");
+      $scope.activeMenu = "xor";
+    };
+    $scope.setActiveMenuByName = function(menuItem) {
+      for (var i=0; i<$scope.menuItems.length; i++) {
+        var activeMenuItem = $scope.menuItems[i];
+        if (activeMenuItem.value === menuItem) {
+          $scope.activeMenu = menuItem.value;
+          break;
+        }
+      }
     };
   });
 
