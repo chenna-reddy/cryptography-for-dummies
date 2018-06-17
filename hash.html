@@ -1,52 +1,69 @@
 <div ng-controller="hashController">
 
 
-      <div>
-          <div class="row">
-              <div class="col-lg-12">
-                  <div class="page-header">
-                      <h1 id="forms">Hash #</h1>
-                      <p class="lead">No coming back</p>
-                  </div>
-              </div>
-          </div>
-
-          <div class="row">
-              <div class="col-lg-6">
-                  <div class="well">
-                      <div class="form-horizontal">
-                          <fieldset>
-                              <div class="form-group">
-                                  <label for="input" class="col-lg-2 control-label">Input</label>
-                                  <div class="col-lg-10">
-                                      <input type="number" class="form-control" id="input" ng-model="input">
-                                  </div>
-                              </div>
-                              <div class="form-group">
-                                  <label for="hashFunction" class="col-lg-2 control-label">Hash Function</label>
-                                  <div class="col-lg-10">
-                                    <select class="form-control" id="hashFunction" ng-model="hashfun">
-                                      <option value="sumOfDigits">Repeated Sum of Digits</option>
-                                      <option value="md5">MD5</option>
-                                    </select>
-                                  </div>
-                              </div>
-                              <div class="form-group">
-                                  <div class="col-lg-10 col-lg-offset-2">
-                                      <input type="button" class="btn btn-primary" ng-click="hash()" value="Hash">
-                                  </div>
-                              </div>
-                              <div class="form-group">
-                                  <label for="output" class="col-lg-2 control-label">Output</label>
-                                  <div class="col-lg-10">
-                                      <input class="form-control" id="output" ng-model="output" readonly="true">
-                                  </div>
-                              </div>
-                          </fieldset>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
+  <div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h1 id="forms">Hash #</h1>
+          <p class="lead">One Way</p>
+        </div>
       </div>
+    </div>
+
+    <div class="row">
+
+
+      <div class="col-lg-6">
+        <div class="well">
+          <div class="form-horizontal">
+            <fieldset>
+              <div class="form-group">
+                <label for="input" class="col-lg-2 control-label">Input</label>
+                <div class="col-lg-10">
+                  <input type="number" class="form-control" id="input" ng-model="input">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="hashFunction" class="col-lg-2 control-label">Hash Function</label>
+                <div class="col-lg-10">
+                  <select class="form-control" id="hashFunction" ng-model="hashfun">
+                    <option value="sumOfDigits">Repeated Sum of Digits</option>
+                    <option value="md5">MD5</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-10 col-lg-offset-2">
+                  <input type="button" class="btn btn-primary" ng-click="hash()" value="Hash">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="output" class="col-lg-2 control-label">Output</label>
+                <div class="col-lg-10">
+                  <input class="form-control" id="output" ng-model="output" readonly="true">
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-lg-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Hash</h3>
+          </div>
+          <div class="panel-body">
+            <p>Same message always produces same output</p>
+            <p>Not possible to generate original message from Hash</p>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
 </div>
