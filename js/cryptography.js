@@ -4,9 +4,10 @@
 
   var random = function(limit) {
     return Math.floor(Math.random()*limit+1)
-  }
+  };
 
   var sumOfDigits = function(input) {
+    input = parseInt(input.toString());
     while (input >= 10) {
       var str = input.toString();
       var sum = 0;
@@ -16,13 +17,17 @@
       input = sum;
     }
     return input;
-  }
+  };
 
 
   app.factory('helperMethods', function(){
     return {
-      dummy: function(menuItem) {
-        return true;
+      binary: function(input) {
+        if (input.toString() === '') {
+          return '';
+        } else {
+            return parseInt(input.toString()).toString(2);
+        }
       }
     };
   });
@@ -126,8 +131,10 @@
   app.controller("xorController", function ($scope, helperMethods) {
     $scope.a = random(100);
     $scope.b = random(100);
+    $scope.o = "";
+    $scope.binary = helperMethods.binary;
     $scope.xor = function() {
-      $scope.c = $scope.a ^ $scope.b;
+      $scope.o = $scope.a ^ $scope.b;
     };
   });
 
@@ -135,6 +142,7 @@
   app.controller("symmetricKeyController", function ($scope, helperMethods) {
     $scope.input = random(100);
     $scope.key = random(100);
+    $scope.binary = helperMethods.binary;
     $scope.encryptOrDecrypt = function() {
       $scope.output = $scope.input ^ $scope.key;
     };
@@ -144,6 +152,7 @@
   app.controller("hashController", function ($scope, helperMethods) {
     $scope.input = random(100);
     $scope.hashfun = "sumOfDigits";
+    $scope.binary = helperMethods.binary;
     $scope.hash = function() {
       if ($scope.hashfun === "sumOfDigits") {
         $scope.output = sumOfDigits($scope.input);
@@ -157,13 +166,12 @@
     $scope.input = random(100);
     $scope.key = random(100);
     $scope.hashfun = "sumOfDigits";
+    $scope.binary = helperMethods.binary;
     $scope.hmac = function() {
       if ($scope.hashfun === "sumOfDigits") {
-        var s = sumOfDigits(parseInt($scope.key + "" + $scope.input));
-        $scope.output = sumOfDigits(parseInt($scope.key + "" + s));
+        $scope.output = sumOfDigits($scope.key + "" + sumOfDigits($scope.key + "" + $scope.input));
       } else {
-        var s = hex_md5($scope.key + "" + $scope.input);
-        $scope.output = hex_md5($scope.key + "" + s);
+        $scope.output = hex_md5($scope.key + "" + hex_md5($scope.key + "" + $scope.input));
       }
     };
   });
@@ -174,15 +182,15 @@
     $scope.b = 3;
     $scope.p = 23;
     $scope.g = 5;
+    $scope.binary = helperMethods.binary;
 
-    $scope.gPowerXmodP = function(x) {
-      return Math.floor(Math.pow($scope.g, x)) % $scope.p;
+    $scope.gPowerXmodP = function(y) {
+      return Math.floor(Math.pow($scope.g, y)) % $scope.p;
     };
 
     $scope.xPowerYmodP = function(x, y) {
       return Math.floor(Math.pow(x, y)) % $scope.p;
     };
-
   });
 
 
@@ -193,6 +201,7 @@
     $scope.b1 = random(50);
     $scope.input = random(50);
     $scope.output = "";
+    $scope.binary = helperMethods.binary;
 
     $scope.publicKey = function(a, b, a1, b1) {
       var M =  (a * b) -1;
@@ -237,6 +246,7 @@
     $scope.signatureInput = "";
     $scope.signatureOutput = "";
     $scope.output = "";
+    $scope.binary = helperMethods.binary;
 
     $scope.publicKey = function(a, b, a1, b1) {
       var M =  (a * b) -1;
