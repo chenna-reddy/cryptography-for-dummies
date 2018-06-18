@@ -20,13 +20,15 @@
               <div class="form-group">
                 <label for="input" class="col-lg-2 control-label">Input</label>
                 <div class="col-lg-10">
-                  <input class="form-control" id="input" ng-model="input">
+                  <input class="form-control" id="input" ng-model="input" fix-hex>
+                  <span class="help-block">binary: {{binary16(input)}}</span>
                 </div>
               </div>
               <div class="form-group">
                 <label for="key" class="col-lg-2 control-label">Key</label>
                 <div class="col-lg-10">
-                  <input class="form-control" id="key" ng-model="key">
+                  <input class="form-control" id="key" ng-model="key" fix-hex>
+                  <span class="help-block">binary: {{binary16(key)}}</span>
                 </div>
               </div>
               <div class="form-group">
@@ -34,6 +36,7 @@
                 <div class="col-lg-10">
                   <select class="form-control" id="hashFunction" ng-model="hashfun">
                     <option value="sumOfDigits">Repeated Sum of Digits</option>
+                    <option value="repetitiveXor">Repetitive XOR with 0x5c</option>
                     <option value="md5">MD5</option>
                   </select>
                 </div>

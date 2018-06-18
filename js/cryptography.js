@@ -26,7 +26,6 @@
     };
 
     var fixHex = function (input) {
-        console.log("fixHex", input);
         if (input == null || input.toString() === "") {
             return input;
         }
@@ -36,7 +35,6 @@
         while (input.length > 2 && input.substr(0, 2) === "00") {
             input = input.substr(2);
         }
-        console.log("fixHex", input);
         return input;
     };
 
@@ -105,7 +103,7 @@
     var sumOfDigits = function (input) {
         var sum = 0;
         for (var i=0; i<input.length; i++) {
-            sum = sum + parseInt(input.charAt(i), 16);
+            sum = sum + parseInt(input.substr(i, 1), 16);
         }
         while (sum >= 16) {
             var str = sum.toString(16);
@@ -115,16 +113,16 @@
             }
             sum = ns;
         }
-        return sum;
+        return fixHex(sum.toString(16));
     };
 
     var repetitiveXor = function (input) {
         input = fixHex(input.toString());
         var o = 0x5c;
-        for (var i=0; i<input.length; i++) {
-            o = o ^ parseInt(input.charAt(i), 16);
+        for (var i=0; i<input.length; i+=2) {
+            o = o ^ parseInt(input.substr(i, 2), 16);
         }
-        return o;
+        return fixHex(o.toString(16));
     };
 
 
@@ -198,19 +196,19 @@
             prev: 'symmetric-keys',
             name: 'Key Exchange',
             value: 'key-exchange',
-            next: 'hmac'
-        }, {
-            prev: 'key-exchange',
-            name: 'HMAC',
-            value: 'hmac',
             next: 'assymetric-keys'
         }, {
-            prev: 'hmac',
+            prev: 'key-exchange',
             name: 'Asymmetric Key Encryption',
             value: 'assymetric-keys',
-            next: 'digital-signature'
+            next: 'hmac'
         }, {
             prev: 'assymetric-keys',
+            name: 'HMAC',
+            value: 'hmac',
+            next: 'block-chain'
+        }, {
+            prev: 'hmac',
             name: 'Digital Signature',
             value: 'digital-signature',
             next: 'block-chain'
@@ -303,26 +301,28 @@
         $scope.binary16 = toString2From16;
         $scope.dec16 = toString10From16;
         $scope.hash = function () {
-            var input = fromString16($scope.input);
             if ($scope.hashfun === "sumOfDigits") {
                 $scope.output = sumOfDigits($scope.input);
             } else if ($scope.hashfun === "repetitiveXor") {
-                $scope.output = toString16(repetitiveXor(input));
+                $scope.output = repetitiveXor($scope.input);
             } else {
-                $scope.output = hex_md5(input.toString());
+                $scope.output = hex_md5($scope.input);
             }
         };
     });
 
     app.controller("hmacController", function ($scope, helperMethods) {
-        $scope.input = random(100);
-        $scope.key = random(100);
+        $scope.input = random16(256);
+        $scope.key = random16(256);
         $scope.output = "";
         $scope.hashfun = "sumOfDigits";
-        $scope.binary = helperMethods.binary;
+        $scope.binary16 = toString2From16;
+        $scope.dec16 = toString10From16;
         $scope.hmac = function () {
             if ($scope.hashfun === "sumOfDigits") {
                 $scope.output = sumOfDigits($scope.key + "" + sumOfDigits($scope.key + "" + $scope.input));
+            } else if ($scope.hashfun === "repetitiveXor") {
+                $scope.output = repetitiveXor($scope.key + "" + repetitiveXor($scope.key + "" + $scope.input));
             } else {
                 $scope.output = hex_md5($scope.key + "" + hex_md5($scope.key + "" + $scope.input));
             }
