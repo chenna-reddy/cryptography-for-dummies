@@ -1,67 +1,134 @@
 <div ng-controller="symmetricKeyController">
 
 
-  <div>
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="page-header">
-          <h1 id="forms">Symmetric Key Encryption</h1>
-          <p class="lead">Same key used for encryption and decryption</p>
+    <div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1 id="forms">Symmetric Key Encryption</h1>
+                    <p class="lead">Same key used for encryption and decryption</p>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Encryption/Decryption</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>cipher => key ⊕ (IV || original)</p>
+                        <p>(IV || original) => key ⊕ cipher</p>
+                        <small class="text-muted">IV is a fixed size random string</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+
+            <div class="col-lg-6">
+                <div class="well">
+                    <div class="form-horizontal">
+                        <fieldset>
+                            <legend>Encrypt</legend>
+                            <div class="form-group">
+                                <label for="iv" class="col-lg-2 control-label">IV</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="iv" ng-model="iv" fix-hex>
+                                    <span class="help-block">binary: {{binary16(iv)}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="input" class="col-lg-2 control-label">Input</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="input" ng-model="input" fix-hex>
+                                    <span class="help-block">binary: {{binary16(input)}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="keyToEncrypt" class="col-lg-2 control-label">Key</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="keyToEncrypt" ng-model="keyToEncrypt" fix-hex>
+                                    <span class="help-block">binary: {{binary16(keyToEncrypt)}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <input type="button" class="btn btn-primary" ng-click="encrypt()" value="Encrypt">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="encrypted" class="col-lg-2 control-label">Encrypted</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="encrypted" ng-model="encrypted">
+                                    <span class="help-block">binary: {{binary16(encrypted)}}</span>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-6">
+                <div class="well">
+                    <div class="form-horizontal">
+                        <fieldset>
+                            <legend>Decrypt</legend>
+                            <div class="form-group">
+                                <label for="cipher" class="col-lg-2 control-label">Cipher</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="cipher" ng-model="cipher" fix-hex>
+                                    <span class="help-block">binary: {{binary16(cipher)}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="keyToDecrypt" class="col-lg-2 control-label">Key</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="keyToDecrypt" ng-model="keyToDecrypt" fix-hex>
+                                    <span class="help-block">binary: {{binary16(keyToDecrypt)}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <input type="button" class="btn btn-primary" ng-click="decrypt()" value="Decrypt">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="decrypted" class="col-lg-2 control-label">Decrypted</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="decrypted" ng-model="decrypted">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Play Area</h3>
+                    </div>
+                    <div class="panel-body">
+                        <textarea class="form-control" rows="6" id="playArea"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
     </div>
-
-    <div class="row">
-
-
-      <div class="col-lg-6">
-        <div class="well">
-          <div class="form-horizontal">
-            <fieldset>
-              <div class="form-group">
-                <label for="input" class="col-lg-2 control-label">Input</label>
-                <div class="col-lg-10">
-                  <input type="number" class="form-control" id="input" ng-model="input">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="key" class="col-lg-2 control-label">Key</label>
-                <div class="col-lg-10">
-                  <input type="number" class="form-control" id="key" ng-model="key" readonly="true">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-lg-10 col-lg-offset-2">
-                  <input type="button" class="btn btn-primary" ng-click="encryptOrDecrypt()" value="Encrypt/Decrypt">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="output" class="col-lg-2 control-label">Output</label>
-                <div class="col-lg-10">
-                  <input type="number" class="form-control" id="output" ng-model="output">
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="col-lg-6">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">Encryption/Decryption</h3>
-          </div>
-          <div class="panel-body">
-            <p>cipher => key ⊕ (IV || original)</p>
-            <p>(IV || original) => key ⊕ cipher</p>
-            <small class="text-muted">IV is a fixed size random string</small>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-
-  </div>
 </div>
